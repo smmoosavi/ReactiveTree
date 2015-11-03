@@ -28,4 +28,18 @@ class TreeTest extends FlatSpec with Matchers {
 
     tree3.toList shouldBe List("2", "1", "2", "4", "5")
   }
+
+
+  it should "Generate a tree of Squared root values of original tree" in {
+
+    val sqrt: Int => Tree[Int] = value => {
+      val s: Int = Math.sqrt(value).toInt
+      InnerNode(Leaf(s), Leaf(s))
+    }
+
+    val testTree = InnerNode(InnerNode(4, 9), 16)
+    val resultTree = testTree.flatMap(sqrt)
+
+    resultTree.toList shouldBe List(2, 2, 3, 3, 4, 4)
+  }
 }

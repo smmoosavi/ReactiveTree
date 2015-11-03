@@ -10,6 +10,8 @@ trait Tree[T] {
   def foreach(f: T => Unit): Unit
 
   def map[U](f: T => U): Tree[U]
+
+  def flatMap[U](f: T => Tree[U]): Tree[U]
 }
 
 case class InnerNode[T](left: Tree[T], right: Tree[T]) extends Tree[T] {
@@ -23,7 +25,9 @@ case class InnerNode[T](left: Tree[T], right: Tree[T]) extends Tree[T] {
     right.foreach(f)
   }
 
-  override def map[U](f: (T) => U): Tree[U] = InnerNode(left map f , right map f)
+  override def map[U](f: (T) => U): Tree[U] = InnerNode(left map f, right map f)
+
+  override def flatMap[U](f: (T) => Tree[U]): Tree[U] = ???
 }
 
 case class Leaf[T](value: T) extends Tree[T] {
@@ -32,4 +36,6 @@ case class Leaf[T](value: T) extends Tree[T] {
   override def foreach(f: (T) => Unit): Unit = f(value)
 
   override def map[U](f: (T) => U): Tree[U] = Leaf(f(value))
+
+  override def flatMap[U](f: (T) => Tree[U]): Tree[U] = ???
 }
