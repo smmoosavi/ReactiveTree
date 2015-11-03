@@ -3,27 +3,27 @@ package ir.co.bayan.simorq.reactive.tree
 /**
  * @author S.Hosein Ayat
  */
-trait Tree {
+trait Tree[T] {
 
-  def toList: List[Int]
+  def toList: List[T]
 
-  def foreach(f: Int => Unit): Unit
+  def foreach(f: T => Unit): Unit
 }
 
-case class InnerNode(left: Tree, right: Tree) extends Tree {
+case class InnerNode[T](left: Tree[T], right: Tree[T]) extends Tree[T] {
 
-  override def toList: List[Int] = {
+  override def toList: List[T] = {
     left.toList ++ right.toList
   }
 
-  override def foreach(f: (Int) => Unit): Unit = {
+  override def foreach(f: (T) => Unit): Unit = {
     left foreach f
     right.foreach(f)
   }
 }
 
-case class Leaf(value: Int) extends Tree {
-  override def toList: List[Int] = value :: Nil
+case class Leaf[T](value: T) extends Tree[T] {
+  override def toList: List[T] = value :: Nil
 
-  override def foreach(f: (Int) => Unit): Unit = f(value)
+  override def foreach(f: (T) => Unit): Unit = f(value)
 }
