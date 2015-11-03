@@ -13,7 +13,7 @@ class TreeTest extends FlatSpec with Matchers {
 
   "Tree" can "create an ordered list of it's elements" in {
     tree.toList shouldBe List(2, 3)
-    tree2.toList shouldBe List(2 , 1 , 2 , 4 , 5)
+    tree2.toList shouldBe List(2, 1, 2, 4, 5)
   }
 
 
@@ -21,4 +21,11 @@ class TreeTest extends FlatSpec with Matchers {
     tree2 foreach println
   }
 
+  it should "Generate another tree using map function" in {
+
+
+    val tree3 = tree2.map(_.toString)
+
+    tree3.toList shouldBe List("2", "1", "2", "4", "5")
+  }
 }
