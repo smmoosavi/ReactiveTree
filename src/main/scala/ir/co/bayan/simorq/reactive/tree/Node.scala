@@ -3,7 +3,7 @@ package ir.co.bayan.simorq.reactive.tree
 /**
  * @author S.Hosein Ayat
  */
-case class Node[T](value: T, left: Option[Node], right: Option[Node]) {
+case class Node[T](value: T, left: Option[Node[T]], right: Option[Node[T]]) {
   /**
    * In fix traverse
    * @return list of Ts
