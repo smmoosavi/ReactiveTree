@@ -42,4 +42,16 @@ class TreeTest extends FlatSpec with Matchers {
 
     resultTree.toList shouldBe List(2, 2, 3, 3, 4, 4)
   }
+
+  it can "fold" in {
+    //    List(2, 1, 2, 4, 5)
+
+    def adder(s: Int, i: Int) = s + i
+    def multiplier(s: Int, i: Int) = s * i
+    def concatener(s: String, i: String) = s + i
+
+    tree2.fold(0, adder) shouldBe 14
+    tree2.fold(1, multiplier) shouldBe 80
+    tree2.map(_.toString).fold("", concatener) shouldBe "21245"
+  }
 }
