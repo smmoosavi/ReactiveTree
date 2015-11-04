@@ -13,7 +13,7 @@ trait Tree[T] {
 
   def flatMap[U](f: T => Tree[U]): Tree[U]
 
-  def fold(state: T, f: (T, T) => T): T
+  def fold[U](state: U, f: (U, T) => U): U
 }
 
 case class InnerNode[T](left: Tree[T], right: Tree[T]) extends Tree[T] {
@@ -33,7 +33,7 @@ case class InnerNode[T](left: Tree[T], right: Tree[T]) extends Tree[T] {
     InnerNode(left flatMap f, right flatMap f)
   }
 
-  override def fold(state: T, f: (T, T) => T): T = {
+  override def fold[U](state: U, f: (U, T) => U): U = {
     right.fold(left.fold(state, f), f)
   }
 }
@@ -49,7 +49,7 @@ case class Leaf[T](value: T) extends Tree[T] {
     f(value)
   }
 
-  override def fold(state: T, f: (T, T) => T): T = {
+  override def fold[U](state: U, f: (U, T) => U): U = {
     f(state, value)
   }
 }
