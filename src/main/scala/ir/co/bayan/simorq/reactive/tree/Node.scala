@@ -28,5 +28,10 @@ case class Node[T](value: T, left: Option[Node[T]] = None, right: Option[Node[T]
    * @param f activation function
    * @return result
    */
-  def fold(state: T, f: (T, T) => T): T = ???
+  def fold[U](state: U, f: (U, T) => U): U = {
+    val leftState = if (left.isEmpty) state else left.get.fold(state, f)
+    val middleState = f(leftState, value)
+    val rightState = if (right.isEmpty) middleState else right.get.fold(middleState, f)
+    return rightState
+  }
 }
