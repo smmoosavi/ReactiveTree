@@ -9,17 +9,11 @@ case class Node[T](value: T, left: Option[Node[T]] = None, right: Option[Node[T]
    * @return list of Ts
    */
   def toList: List[T] = {
-
-    val leftList: List[T] = if (left.isEmpty) Nil else left.get.toList
-    val middleList = value :: Nil
-    val rightList: List[T] = if (right.isEmpty) Nil else right.get.toList
-    leftList ++ middleList ++ rightList
+    left.map(_.toList).getOrElse(Nil) ++ (value :: Nil) ++ right.map(_.toList).getOrElse(Nil)
   }
 
   def map[U](f: T => U): Node[U] = {
-    val leftNode = if (left.isEmpty) None else Some(left.get.map(f))
-    val rightNode = if (right.isEmpty) None else Some(right.get.map(f))
-    Node[U](f(value), leftNode, rightNode)
+    Node[U](f(value), left.map(_ map f), right.map(_ map f))
   }
 
   /**
@@ -29,9 +23,9 @@ case class Node[T](value: T, left: Option[Node[T]] = None, right: Option[Node[T]
    * @return result
    */
   def fold[U](state: U, f: (U, T) => U): U = {
-    val leftState = if (left.isEmpty) state else left.get.fold(state, f)
+    val leftState = left.map(_.fold(state, f)).getOrElse(state)
     val middleState = f(leftState, value)
-    val rightState = if (right.isEmpty) middleState else right.get.fold(middleState, f)
+    val rightState = right.map(_.fold(middleState, f)).getOrElse(middleState)
     return rightState
   }
 }
