@@ -15,4 +15,9 @@ class NodeTest extends FlatSpec with Matchers {
     tree.toList shouldBe List(2, 1, 3)
     tree2.toList shouldBe List("2", "1", "3")
   }
+
+  it should "Generate another tree using map function" in {
+    val tree4: Node[String] = tree.map((x: Int) => (x + 2).toString)
+    tree4.toList shouldBe List("4", "3", "5")
+  }
 }

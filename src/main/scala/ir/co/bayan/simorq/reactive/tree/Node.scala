@@ -16,7 +16,11 @@ case class Node[T](value: T, left: Option[Node[T]] = None, right: Option[Node[T]
     leftList ++ middleList ++ rightList
   }
 
-  def map[U](f: T => U): Node[U] = ???
+  def map[U](f: T => U): Node[U] = {
+    val leftNode = if (left.isEmpty) None else Some(left.get.map(f))
+    val rightNode = if (right.isEmpty) None else Some(right.get.map(f))
+    Node[U](f(value), leftNode, rightNode)
+  }
 
   /**
    * In fix implementation
