@@ -49,9 +49,11 @@ class TreeTest extends FlatSpec with Matchers {
     def adder(s: Int, i: Int) = s + i
     def multiplier(s: Int, i: Int) = s * i
     def concatener(s: String, i: String) = s + i
+    def appender(s: List[Int], i: Int) = s :+ i
 
     tree2.fold(0, adder) shouldBe 14
     tree2.fold(1, multiplier) shouldBe 80
     tree2.map(_.toString).fold("", concatener) shouldBe "21245"
+    tree2.fold(Nil, appender) shouldBe List(2, 1, 2, 4, 5)
   }
 }
